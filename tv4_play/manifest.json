@@ -1,0 +1,12 @@
+{
+    "domain": "tv4_play",
+    "name": "TV4 Play",
+    "documentation": "",
+    "dependencies": [
+        "media_player"
+    ],
+    "codeowners": [],
+    "requirements": [
+        "requests"
+    ]
+}
