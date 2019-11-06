@@ -11,7 +11,7 @@ Currently, only `tv4_play.play_suggested` is available, but the plan is to add m
 
 ### Add the code
 
-Copy the `tv4_play` folder in this repository to `<home assistant config>/customer_components/tv4_play`
+Copy the `custom_components/tv4_play` folder in this repository to `<home assistant config>/custom_components/tv4_play`
 
 ### Active the service
 
