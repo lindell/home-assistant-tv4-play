@@ -19,6 +19,7 @@ SERVICE_PLAY_SUGGESTED_SCHEMA = vol.Schema({
 
 _LOGGER = logging.getLogger(__name__)
 
+# Get the CDN video url
 def get_video_url(video_asset):
     url = 'https://playback-api.b17g.net/media/{}?service=tv4&device=browser&protocol=hls%2Cdash&drm=widevine&is_live={}&has_startover={}'.format(
         video_asset['id'],
@@ -33,6 +34,7 @@ def get_video_url(video_asset):
 
     return video_url
 
+# Get information about the sugested episode based on the program name
 def get_suggested_episode(program_id):
     query = """
         query($name: String) {
