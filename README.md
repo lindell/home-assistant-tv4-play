@@ -26,13 +26,11 @@ to your configuration.yaml file.
 And then add the automation you want:
 ```yaml
 automation:
-- alias: 
+- alias:
   trigger:
   # Some trigger
   action:
   - service: tv4_play.play_suggested
     entity_id: media_player.living_room_tv
-    data:
-      program_name: nyhetsmorgon
+    program_name: nyhetsmorgon
 ```
-
