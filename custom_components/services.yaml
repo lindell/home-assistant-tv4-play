@@ -1,0 +1,5 @@
+play_suggested:
+  description: Play the suggested video from the specified program name
+  fields:
+    program_name:
+      example: "nyhetsmorgon"
