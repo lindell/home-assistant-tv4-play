@@ -1,11 +1,9 @@
 Home Assistant TV4 Play
 ----
 
-Play tv4 play programs on home assistant.
+Play tv4 play programs on home assistant media players.
 
 Currently, only `tv4_play.play_suggested` is available, but the plan is to add more services.
-
-
 
 ## Installation
 
