@@ -32,5 +32,6 @@ automation:
   action:
   - service: tv4_play.play_suggested
     entity_id: media_player.living_room_tv
-    program_name: nyhetsmorgon
+    data:
+      program_name: nyhetsmorgon
 ```
