@@ -26,3 +26,10 @@ automation:
     data:
       program_name: nyhetsmorgon
 ```
+
+## Get the `program_name` field
+
+1. Search an click on the program you want at [tv4play.se](https://www.tv4play.se)
+2. From the url, grab the name. It should be right after `program/`
+
+![](https://share.lindell.me/2019/11/MassiveLeonberger.png)
