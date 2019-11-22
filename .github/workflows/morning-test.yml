@@ -1,8 +1,8 @@
-name: Afternoon test
+name: Morning test
 
 on:
   schedule:
-    - cron: "30 15 * * *"
+    - cron: "30 6 * * *"
 
 jobs:
   build:
@@ -21,4 +21,4 @@ jobs:
       - name: Test with pytest
         run: |
           pip install pytest
-          pytest custom_components/tv4_play/video_url_fetch/afternoon_test.py
+          pytest custom_components/tv4_play/video_url_fetch/morning_test.py
