@@ -2,7 +2,7 @@ name: Morning test
 
 on:
   schedule:
-    - cron: "30 6 * * *"
+    - cron: "35 7 * * *"
 
 jobs:
   build:
