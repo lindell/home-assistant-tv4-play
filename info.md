@@ -1,4 +1,8 @@
 # TV4 Play
+![](https://github.com/lindell/home-assistant-tv4-play/workflows/Morning%20test/badge.svg)
+![](https://github.com/lindell/home-assistant-tv4-play/workflows/Afternoon%20test/badge.svg)
+
+
 Play tv4 play programs on home assistant media players.
 
 Currently, only `tv4_play.play_suggested` is available, but the plan is to add more services.
