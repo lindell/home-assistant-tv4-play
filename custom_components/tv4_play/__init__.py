@@ -27,7 +27,8 @@ async def async_setup(hass, config):
         entity_id = service.data.get(CONF_ENTITY_ID)
         program_name = service.data.get(CONF_PROGRAM_NAME)
 
-        video_url = get_video_url(get_suggested_episode(program_name))
+        suggested_episode = await hass.async_add_executor_job(get_suggested_episode, program_name)
+        video_url = await hass.async_add_executor_job(get_video_url, suggested_episode)
 
         service_data = {
             'entity_id': entity_id,
