@@ -1,6 +1,7 @@
 {
     "domain": "tv4_play",
     "name": "TV4 Play",
+    "version": "1.0.2",
     "documentation": "",
     "dependencies": [
         "media_player"
