@@ -7,7 +7,5 @@
         "media_player"
     ],
     "codeowners": [],
-    "requirements": [
-        "requests"
-    ]
+    "requirements": []
 }
