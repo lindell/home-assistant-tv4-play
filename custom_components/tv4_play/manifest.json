@@ -2,10 +2,12 @@
     "domain": "tv4_play",
     "name": "TV4 Play",
     "version": "1.0.2",
-    "documentation": "",
+    "documentation": "https://github.com/lindell/home-assistant-tv4-play",
+    "issue_tracker": "https://github.com/lindell/home-assistant-tv4-play/issues",
     "dependencies": [
         "media_player"
     ],
+    "iot_class": "cloud_polling",
     "codeowners": [],
     "requirements": []
 }
