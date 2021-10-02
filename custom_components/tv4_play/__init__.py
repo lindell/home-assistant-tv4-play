@@ -9,11 +9,13 @@ DEPENDENCIES = ['media_player']
 
 CONF_ENTITY_ID = 'entity_id'
 CONF_PROGRAM_NAME = 'program_name'
+CONF_SUBTITLES_LANG = 'subtitles_lang'
 
 SERVICE_PLAY_SUGGESTED = 'play_suggested'
 SERVICE_PLAY_SUGGESTED_SCHEMA = vol.Schema({
     CONF_ENTITY_ID: cv.entity_ids,
     CONF_PROGRAM_NAME: str,
+    CONF_SUBTITLES_LANG: str,
 })
 
 _LOGGER = logging.getLogger(__name__)
@@ -26,6 +28,7 @@ async def async_setup(hass, config):
 
         entity_id = service.data.get(CONF_ENTITY_ID)
         program_name = service.data.get(CONF_PROGRAM_NAME)
+        subtitles_lang = service.data.get(CONF_SUBTITLES_LANG)
 
         suggested_episode = await hass.async_add_executor_job(get_suggested_episode, program_name)
         video_url = await hass.async_add_executor_job(get_video_url, suggested_episode)
@@ -33,8 +36,15 @@ async def async_setup(hass, config):
         service_data = {
             'entity_id': entity_id,
             'media_content_id': video_url,
-            'media_content_type': 'video'
+            'media_content_type': 'video',
+            'extra': {
+                'title': suggested_episode['title'],
+                'thumb': suggested_episode['image2']['url'],
+            }
         }
+
+        if subtitles_lang:
+            service_data['extra']['subtitles_lang'] = subtitles_lang
 
         await hass.services.async_call('media_player', 'play_media', service_data)
 
