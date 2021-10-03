@@ -30,6 +30,10 @@ def get_suggested_episode(program_id):
                         id
                         live
                         startOver
+                        title
+                        image2 {
+                            url
+                        }
                     }
                 }
             }

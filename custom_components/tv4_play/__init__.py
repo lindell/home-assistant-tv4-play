@@ -33,7 +33,11 @@ async def async_setup(hass, config):
         service_data = {
             'entity_id': entity_id,
             'media_content_id': video_url,
-            'media_content_type': 'video'
+            'media_content_type': 'video',
+            'extra': {
+                'title': suggested_episode['title'],
+                'thumb': suggested_episode['image2']['url'],
+            }
         }
 
         await hass.services.async_call('media_player', 'play_media', service_data)
