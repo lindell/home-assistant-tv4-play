@@ -1,4 +1,3 @@
-import pytest
 from video_fetch import get_suggested_episode, get_video_url
 
 # The X-Forwarded-For needs to be set so that it isn't set to something else
