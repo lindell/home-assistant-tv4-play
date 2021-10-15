@@ -6,17 +6,6 @@ from video_fetch import get_suggested_episode, get_video_url
 headers = {'X-Forwarded-For': '195.198.201.208'}
 
 
-def test_not_started_stream():
-    video_asset = get_suggested_episode('nyhetsmorgon')
-
-    assert isinstance(video_asset['id'], int)
-    assert isinstance(video_asset['live'], bool)
-    assert isinstance(video_asset['startOver'], bool)
-
-    with pytest.raises(Exception, match=r".* stream_not_started.*"):
-        get_video_url(video_asset, headers=headers)
-
-
 def test_started_stream():
     video_asset = get_suggested_episode('nyheterna')
 
