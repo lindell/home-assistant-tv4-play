@@ -47,7 +47,7 @@ def get_suggested_episode(program_id):
         },
     }
 
-    data = post('https://tv4-graphql-web.b17g.net/graphql',
+    data = post('https://graphql.tv4play.se/graphql',
                 json=query_data).json()
     video_asset = data['data']['program']['suggestedEpisode']['videoAsset']
 
