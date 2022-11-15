@@ -4,7 +4,12 @@ from requests import post
 
 def get_video_url(video_asset, headers=None):
     "Get the CDN video url"
-    url = 'https://playback-api.b17g.net/media/{}?service=tv4&device=browser&protocol=hls%2Cdash&drm=widevine&is_live={}&has_startover={}'.format(
+
+    config = get("https://html-player-v2.b17g.net/config?service=tv4", headers=headers).json()
+    playback_endpoint = config["PLAYBACK_ENDPOINT"]
+
+    url = '{}/play/{}?service=tv4&device=browser&protocol=hls%2Cdash&drm=widevine&is_live={}&has_startover={}'.format(
+        playback_endpoint,
         video_asset['id'],
         video_asset['live'],
         video_asset['startOver'],
