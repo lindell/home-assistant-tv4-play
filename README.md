@@ -1,8 +1,5 @@
 Home Assistant TV4 Play
 ----
-[![](https://github.com/lindell/home-assistant-tv4-play/workflows/Morning%20test/badge.svg)](https://github.com/lindell/home-assistant-tv4-play/actions?query=workflow%3A%22Morning+test%22)
-[![](https://github.com/lindell/home-assistant-tv4-play/workflows/Afternoon%20test/badge.svg)](https://github.com/lindell/home-assistant-tv4-play/actions?query=workflow%3A%22Afternoon+test%22)
-
 
 Play tv4 play programs on home assistant media players.
 
