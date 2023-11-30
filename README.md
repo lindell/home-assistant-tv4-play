@@ -1,6 +1,9 @@
 Home Assistant TV4 Play
 ----
 
+> [!NOTE]  
+> As of 2023-11-29, TV4 changed their API which broke this integration. See [Issue#15](https://github.com/lindell/home-assistant-tv4-play/issues/15) for progress on making it work with the new API.
+
 Play tv4 play programs on home assistant media players.
 
 Currently, only `tv4_play.play_suggested` is available, but the plan is to add more services.
