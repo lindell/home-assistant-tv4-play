@@ -1,13 +1,10 @@
 import datetime
 from homeassistant import config_entries, core
 from homeassistant.helpers.entity import Entity
-from homeassistant.exceptions import (
-    ConfigEntryAuthFailed,
-)
 import jwt
 from stringcase import snakecase
 
-from .const import CONF_ENTRY_NAME, DOMAIN, CONF_REFRESH_TOKEN
+from .const import DOMAIN, CONF_REFRESH_TOKEN
 
 
 async def async_setup_entry(

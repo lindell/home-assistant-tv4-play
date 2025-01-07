@@ -1,4 +1,3 @@
-import re
 from homeassistant.config_entries import (
     ConfigFlow,
     ConfigFlowResult,
@@ -25,8 +24,6 @@ REAUTH_SCHEMA = vol.Schema(
     }
 )
 
-# cv.matches_regex(r"^[\w-]*\.[\w-]*\.[\w-]*$")
-
 
 class TV4PlayConfigFlow(ConfigFlow, domain=DOMAIN):
     """TV4 Play config flow."""
@@ -47,7 +44,7 @@ class TV4PlayConfigFlow(ConfigFlow, domain=DOMAIN):
                         "refresh_token": refresh_token,
                     },
                 )
-            except:
+            except Exception:
                 errors["base"] = "auth"
 
         return self.async_show_form(
@@ -77,7 +74,7 @@ class TV4PlayConfigFlow(ConfigFlow, domain=DOMAIN):
         try:
             refresh_token = user_input[CONF_REFRESH_TOKEN]
             await fetch_access_token(refresh_token)
-        except:
+        except Exception:
             return self.async_show_form(
                 step_id="reauth_confirm",
                 data_schema=REAUTH_SCHEMA,

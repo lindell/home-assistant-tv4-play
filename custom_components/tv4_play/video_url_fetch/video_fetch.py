@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 import json
-from re import A
 import aiohttp
 from homeassistant.exceptions import (
     ConfigEntryAuthFailed,
@@ -43,7 +42,7 @@ async def response_error(response) -> str:
     try:
         data = await response.json()
         return data["error"]["message"]
-    except:
+    except Exception:
         return "Unknown error"
 
 

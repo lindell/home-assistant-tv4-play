@@ -1,5 +1,4 @@
 import os
-from weakref import ref
 
 import pytest
 from video_fetch import fetch_access_token, get_suggested_episode, get_video_url
