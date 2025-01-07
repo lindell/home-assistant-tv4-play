@@ -33,3 +33,4 @@ jobs:
           exit $exit_code
         env:
           TV4_REFRESH_TOKEN: ${{ secrets.TV4_REFRESH_TOKEN }}
+          SKIP_IP_SENSITIVE_TESTS: true

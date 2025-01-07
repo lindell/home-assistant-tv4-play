@@ -22,6 +22,9 @@ async def test_nyheterna():
     episode = await get_suggested_episode(access_token, "2f9d93c74848c53db133")
     assert episode.image_url.startswith("http")
 
+    if os.environ.get("SKIP_IP_SENSITIVE_TESTS", "").lower() == "true":
+        return
+
     url = await get_video_url(access_token, episode.id, headers=headers)
     assert isinstance(url, str)
     assert url.startswith("http")
