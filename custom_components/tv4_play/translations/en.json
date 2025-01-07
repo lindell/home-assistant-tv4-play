@@ -1,0 +1,36 @@
+{
+  "config": {
+    "error": {
+      "auth": "Could not validate with the refresh token."
+    },
+    "step": {
+      "user": {
+        "data": {
+          "entry_name": "Entry name",
+          "refresh_token": "Refresh token"
+        },
+        "description": "Enter TV4 Play refresh token. [test](http://example.com)",
+        "title": "Authentication"
+      },
+      "reauth_confirm": {
+        "description": "Are you sure you want to re-authenticate?",
+        "title": "Re-authenticate"
+      }
+    }
+  },
+  "services": {
+    "play_suggested": {
+      "name": "Play suggested",
+      "description": "Play the suggested (usually the latest) episode of a program.",
+      "fields": {
+        "config_entry": {
+          "name": "Config Entry"
+        },
+        "program_name": {
+          "name": "Program name",
+          "description": "Name of the program to play."
+        }
+      }
+    }
+  }
+}
