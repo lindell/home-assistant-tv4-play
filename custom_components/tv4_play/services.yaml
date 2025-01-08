@@ -11,8 +11,8 @@ play_suggested:
       selector:
         config_entry:
           integration: tv4_play
-    program_name:
+    program_id:
       required: true
-      example: "nyhetsmorgon"
+      example: "67ff22880e988cd4d149"
       selector:
         text:

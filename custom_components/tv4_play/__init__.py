@@ -15,7 +15,7 @@ from .const import DOMAIN
 DEPENDENCIES = ["media_player"]
 
 CONF_ENTITY_ID = "entity_id"
-CONF_PROGRAM_NAME = "program_name"
+CONF_PROGRAM_ID = "program_id"
 CONF_CONFIG_ENTRY = "config_entry"
 
 SERVICE_PLAY_SUGGESTED = "play_suggested"
@@ -27,7 +27,7 @@ SERVICE_PLAY_SUGGESTED_SCHEMA = vol.Schema(
                 "integration": DOMAIN,
             }
         ),
-        CONF_PROGRAM_NAME: str,
+        CONF_PROGRAM_ID: str,
     }
 )
 
@@ -43,7 +43,7 @@ async def async_setup(hass, config):
         """Play a tv4 play video"""
 
         entity_id = service.data.get(CONF_ENTITY_ID)
-        program_name = service.data.get(CONF_PROGRAM_NAME)
+        program_id = service.data.get(CONF_PROGRAM_ID)
         config_entry_id = service.data.get(CONF_CONFIG_ENTRY)
 
         config_entry = hass.data[DOMAIN][config_entry_id]
@@ -51,7 +51,7 @@ async def async_setup(hass, config):
 
         access_token = await fetch_access_token(refresh_token)
 
-        episode = await get_suggested_episode(access_token, program_name)
+        episode = await get_suggested_episode(access_token, program_id)
 
         _LOGGER.debug("Suggested episode: %s", episode.id)
 

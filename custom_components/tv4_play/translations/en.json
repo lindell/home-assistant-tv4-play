@@ -26,9 +26,9 @@
         "config_entry": {
           "name": "Config Entry"
         },
-        "program_name": {
-          "name": "Program name",
-          "description": "Name of the program to play."
+        "program_id": {
+          "name": "Program ID",
+          "description": "ID of the program to play."
         }
       }
     }
