@@ -9,7 +9,7 @@
           "entry_name": "Entry name",
           "refresh_token": "Refresh token"
         },
-        "description": "Enter TV4 Play refresh token. [test](http://example.com)",
+        "description": "Enter TV4 Play refresh token. [How to get it](https://github.com/lindell/home-assistant-tv4-play?tab=readme-ov-file#get-access-token)",
         "title": "Authentication"
       },
       "reauth_confirm": {
