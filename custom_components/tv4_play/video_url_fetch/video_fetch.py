@@ -49,10 +49,7 @@ async def response_error(response) -> str:
 async def get_video_url(access_token: str, id: str, headers={}) -> str:
     """Get the CDN video url from an episode"""
 
-    url = "{}/{}".format(
-        PLAYBACK_URL,
-        id,
-    )
+    url = f"{PLAYBACK_URL}/{id}"
 
     async with aiohttp.ClientSession() as session:
         async with session.get(
@@ -64,8 +61,7 @@ async def get_video_url(access_token: str, id: str, headers={}) -> str:
             params={
                 "service": "tv4play",
                 "device": "browser",
-                "protocol": "hls,dash",
-                "drm": "widevine",
+                "protocol": "dash",
                 "browser": "GoogleChrome",
                 "capabilities": "live-drm-adstitch-2,yospace3",
                 "preview": "false",
