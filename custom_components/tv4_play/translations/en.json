@@ -13,7 +13,7 @@
         "title": "Authentication"
       },
       "reauth_confirm": {
-        "description": "Are you sure you want to re-authenticate?",
+        "description": "Enter new TV4 Play refresh token. [How to get it](https://github.com/lindell/home-assistant-tv4-play?tab=readme-ov-file#get-access-token)",
         "title": "Re-authenticate"
       }
     }
