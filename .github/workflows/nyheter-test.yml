@@ -3,6 +3,7 @@ name: Afternoon test
 on:
   schedule:
     - cron: "30 15 * * *"
+  push:
 
 jobs:
   build:
@@ -10,10 +11,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: Set up Python 3.7
-        uses: actions/setup-python@v1
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.7
+          python-version: "3.13"
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -24,9 +25,12 @@ jobs:
           tries=0
           until [ "$tries" -ge 5 ]
           do
-            pytest custom_components/tv4_play/video_url_fetch/afternoon_test.py && break
+            pytest custom_components/tv4_play/video_url_fetch/nyheterna_test.py && break
             exit_code=$?
             tries=$((tries+1))
             sleep 60
           done
           exit $exit_code
+        env:
+          TV4_REFRESH_TOKEN: ${{ secrets.TV4_REFRESH_TOKEN }}
+          SKIP_IP_SENSITIVE_TESTS: true

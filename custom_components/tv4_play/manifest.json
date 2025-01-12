@@ -7,7 +7,10 @@
     "dependencies": [
         "media_player"
     ],
+    "config_flow": true,
     "iot_class": "cloud_polling",
     "codeowners": [],
-    "requirements": []
+    "requirements": [
+        "stringcase==1.2.0"
+    ]
 }

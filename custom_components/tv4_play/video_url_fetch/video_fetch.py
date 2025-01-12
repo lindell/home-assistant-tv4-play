@@ -1,43 +1,109 @@
-from requests import get
-from requests import post
+from dataclasses import dataclass
+import json
+import aiohttp
+from homeassistant.exceptions import (
+    ConfigEntryAuthFailed,
+)
+
+REFRESH_TOKEN_URL = "https://avod-auth-alb.a2d.tv/oauth/refresh"
+PLAYBACK_URL = "https://playback2.a2d.tv/play"
+GRAPHQL_URL = "https://nordic-gateway.tv4.a2d.tv/graphql"
 
 
-def get_video_url(video_asset, headers=None):
-    "Get the CDN video url"
-
-    config = get("https://html-player-v2.b17g.net/config?service=tv4", headers=headers).json()
-    playback_endpoint = config["PLAYBACK_ENDPOINT"]
-
-    url = '{}/play/{}?service=tv4&device=browser&protocol=hls%2Cdash&drm=widevine&is_live={}&has_startover={}'.format(
-        playback_endpoint,
-        video_asset['id'],
-        video_asset['live'],
-        video_asset['startOver'],
-    )
-
-    data = get(url, headers=headers).json()
-    if 'errorCode' in data:
-        raise Exception(
-            "Could not fetch the CDN data: {}".format(data['errorCode'])
-        )
-    video_url = data['playbackItem']['manifestUrl']
-
-    return video_url
+@dataclass
+class Episode:
+    id: str
+    title: str
+    image_url: str
 
 
-def get_suggested_episode(program_id):
+async def fetch_access_token(refresh_token: str) -> str:
+    """Fetch a new access token using a refresh token."""
+    query_data = {
+        "client_id": "tv4-web",
+        "profile_id": "default",
+        "refresh_token": refresh_token,
+    }
+
+    async with aiohttp.ClientSession() as session:
+        async with session.post(REFRESH_TOKEN_URL, json=query_data) as response:
+            if response.status == 401:
+                raise ConfigEntryAuthFailed(await response_error(response))
+            elif response.status != 200:
+                raise Exception(
+                    f"Could not fetch access token from refresh token, status code: {response.status}, message: {await response_error(response)}"
+                )
+
+            data = await response.json()
+            return data["access_token"]
+
+
+async def response_error(response) -> str:
+    try:
+        data = await response.json()
+        return data["error"]["message"]
+    except Exception:
+        return "Unknown error"
+
+
+async def get_video_url(access_token: str, id: str, headers={}) -> str:
+    """Get the CDN video url from an episode"""
+
+    url = f"{PLAYBACK_URL}/{id}"
+
+    async with aiohttp.ClientSession() as session:
+        async with session.get(
+            url,
+            headers={
+                **headers,
+                "x-jwt": f"Bearer {access_token}",
+            },
+            params={
+                "service": "tv4play",
+                "device": "browser",
+                "protocol": "dash",
+                "browser": "GoogleChrome",
+                "capabilities": "live-drm-adstitch-2,yospace3",
+                "preview": "false",
+            },
+        ) as response:
+            data = await response.json()
+            if "errorCode" in data:
+                raise Exception(
+                    "Could not fetch the CDN data: {}".format(data["errorCode"])
+                )
+
+            if response.status != 200:
+                raise Exception(
+                    f"Could not fetch the CDN data, status code: {response.status}"
+                )
+
+            video_url = data["playbackItem"]["manifestUrl"]
+
+            return video_url
+
+
+async def get_suggested_episode(access_token: str, program_id: str) -> Episode:
     "Get information about the suggested episode based on the program name"
+
+    variables = {
+        "id": program_id,
+    }
+
     query = """
-        query($name: String) {
-            program(nid: $name) {
+        query($id: ID!) {
+            series(id: $id) {
                 suggestedEpisode {
-                    videoAsset {
+                    episode {
                         id
-                        live
-                        startOver
                         title
-                        image2 {
-                            url
+                        images {
+                            main16x9 {
+                                sourceEncoded
+                            }
+                        }
+                        series {
+                            title
                         }
                     }
                 }
@@ -45,15 +111,38 @@ def get_suggested_episode(program_id):
         }
     """
 
-    query_data = {
-        'query': query,
-        'variables': {
-            'name': program_id,
-        },
-    }
+    async with aiohttp.ClientSession() as session:
+        async with session.get(
+            GRAPHQL_URL,
+            params={
+                "variables": json.dumps(variables),
+                "query": query,
+            },
+            headers={
+                "authorization": f"Bearer {access_token}",
+                "client-name": "tv4-web",
+                "client-version": "5.3.0",
+                "content-type": "application/json",
+            },
+        ) as response:
+            if response.status != 200:
+                raise Exception(
+                    f"Could not fetch suggested episode, status code: {response.status}"
+                )
 
-    data = post('https://graphql.tv4play.se/graphql',
-                json=query_data).json()
-    video_asset = data['data']['program']['suggestedEpisode']['videoAsset']
+            data = await response.json()
+            series = data["data"]["series"]
+            if series is None:
+                raise Exception(f"Could not find the series with id {program_id}")
+            suggested_episode = series["suggestedEpisode"]
+            if suggested_episode is None:
+                raise Exception(f"No suggested episode found for {program_id}")
+            episode = suggested_episode["episode"]
+            if episode is None:
+                raise Exception(f"No episode found for {program_id}")
 
-    return video_asset
+            return Episode(
+                id=episode["id"],
+                title=f"{episode['series']['title']} - {episode['title']}",
+                image_url=episode["images"]["main16x9"]["sourceEncoded"],
+            )

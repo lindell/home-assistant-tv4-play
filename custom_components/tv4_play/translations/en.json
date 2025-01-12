@@ -1,0 +1,39 @@
+{
+  "config": {
+    "error": {
+      "auth": "Could not validate with the refresh token."
+    },
+    "step": {
+      "user": {
+        "description": "Enter TV4 Play refresh token. [How to get it](https://github.com/lindell/home-assistant-tv4-play?tab=readme-ov-file#get-access-token)",
+        "title": "Authentication",
+        "data": {
+          "entry_name": "Entry name",
+          "refresh_token": "Refresh token"
+        }
+      },
+      "reauth_confirm": {
+        "description": "Enter new TV4 Play refresh token. [How to get it](https://github.com/lindell/home-assistant-tv4-play?tab=readme-ov-file#get-access-token)",
+        "title": "Re-authenticate",
+        "data": {
+          "refresh_token": "Refresh token"
+        }
+      }
+    }
+  },
+  "services": {
+    "play_suggested": {
+      "name": "Play suggested",
+      "description": "Play the suggested (usually the latest) episode of a program.",
+      "fields": {
+        "config_entry": {
+          "name": "Config Entry"
+        },
+        "program_id": {
+          "name": "Program ID",
+          "description": "ID of the program to play."
+        }
+      }
+    }
+  }
+}
