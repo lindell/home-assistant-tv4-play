@@ -5,7 +5,7 @@ from homeassistant.exceptions import (
     ConfigEntryAuthFailed,
 )
 
-REFRESH_TOKEN_URL = "https://avod-auth-alb.a2d.tv/oauth/refresh"
+REFRESH_TOKEN_URL = "https://auth.tv4.a2d.tv/v2/auth/token"
 PLAYBACK_URL = "https://playback2.a2d.tv/play"
 GRAPHQL_URL = "https://nordic-gateway.tv4.a2d.tv/graphql"
 
@@ -20,13 +20,20 @@ class Episode:
 async def fetch_access_token(refresh_token: str) -> str:
     """Fetch a new access token using a refresh token."""
     query_data = {
-        "client_id": "tv4-web",
+        "grant_type": "refresh_token",
+        "is_child": False,
         "profile_id": "default",
         "refresh_token": refresh_token,
     }
+    headers = {
+        "client-name": "tv4-web",
+        "content-type": "application/json",
+    }
 
     async with aiohttp.ClientSession() as session:
-        async with session.post(REFRESH_TOKEN_URL, json=query_data) as response:
+        async with session.post(
+            REFRESH_TOKEN_URL, json=query_data, headers=headers
+        ) as response:
             if response.status == 401:
                 raise ConfigEntryAuthFailed(await response_error(response))
             elif response.status != 200:
